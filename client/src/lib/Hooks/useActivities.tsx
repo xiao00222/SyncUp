@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
-const useActivities = () => {
+const useActivities = (id?: string) => {
   const queryClient = useQueryClient();
 
   const { data: activities, isLoading } = useQuery({
@@ -9,6 +9,16 @@ const useActivities = () => {
       const response = await agent.get<Activity[]>("/activities");
       return response.data;
     },
+  });
+  const { data: activity, isLoading: isLoadingActivity } = useQuery({
+    queryKey: ["activities", id],
+    queryFn: async () => {
+      const response = await agent.get<Activity>(`/activities/${id}`);
+      return response.data;
+      //to prevent this query to be executed every single time we cast the id to boolean
+      //so that if it exists only then this query executes
+    },
+    enabled: !!id,
   });
   const updateActivities = useMutation({
     mutationFn: async (activity: Activity) => {
@@ -22,7 +32,8 @@ const useActivities = () => {
   });
   const CreateActivities = useMutation({
     mutationFn: async (activity: Activity) => {
-      await agent.post("/activities", activity);
+     const response= await agent.post("/activities", activity);
+     return response.data;
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -40,7 +51,15 @@ const useActivities = () => {
       });
     },
   });
-  return { activities, isLoading, updateActivities,CreateActivities,DeleteActivities };
+  return {
+    activities,
+    isLoading,
+    updateActivities,
+    CreateActivities,
+    DeleteActivities,
+    activity,
+    isLoadingActivity,
+  };
 };
 
 export default useActivities;
