@@ -7,7 +7,7 @@ import ActivityDetailsChat from "./ActivityDetailsChat";
 import ActivityDetailsSidebar from "./ActivityDetailsSidebar";
 
 export const ActivityDetailsPage = () => {
-    const {id}=useParams();
+   const { id } = useParams<{ id: string }>(); 
     const {activity,isLoadingActivity}=useActivities(id);
     if(isLoadingActivity) return <Typography>Loading...</Typography> 
     if (!activity) return <Typography>Activity not found</Typography>

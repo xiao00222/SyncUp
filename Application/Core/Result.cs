@@ -1,4 +1,6 @@
 using System;
+using Application.Activities.DTOs;
+using Domain;
 
 namespace Application.Core;
 
@@ -15,4 +17,6 @@ public class Result<T>
         Code = code,
         Error = error
     };
+
+   
 }
