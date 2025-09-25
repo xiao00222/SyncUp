@@ -1,6 +1,7 @@
 using System;
 using API.DTOs;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,6 @@ public class AccountController : BaseApiController
     {
         _signinManager = signInManager;
     }
-
     [HttpPost("register")]
     public async Task<ActionResult> RegisterUser(RegisterDTO registerDTO)
     {

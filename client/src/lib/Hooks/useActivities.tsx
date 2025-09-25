@@ -1,18 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
 import { useLocation } from "react-router";
-import type { Activity } from "../types";
+import { useAccount } from "./useAccount";
 const useActivities = (id?: string) => {
   const queryClient = useQueryClient();
+  const {currentUser}=useAccount();
   const location=useLocation();
 
   const { data: activities, isLoading } = useQuery({
-    queryKey: ["activities"],
+    queryKey: ["activities"], 
     queryFn: async () => {
       const response = await agent.get<Activity[]>("/activities");
       return response.data;
     },
-    enabled:!id && location.pathname==='/activities'
+    enabled:!id && location.pathname==='/activities' && !!currentUser
   });
   const { data: activity, isLoading: isLoadingActivity } = useQuery({
     queryKey: ["activities", id],
@@ -22,7 +23,7 @@ const useActivities = (id?: string) => {
       //to prevent this query to be executed every single time we cast the id to boolean
       //so that if it exists only then this query executes
     },
-    enabled: !!id,
+    enabled: !!id && !!currentUser
   });
   const updateActivities = useMutation({
     mutationFn: async (activity: Activity) => {

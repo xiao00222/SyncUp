@@ -4,7 +4,8 @@ import useActivities from "../../../lib/Hooks/useActivities";
 
 const ActivityList = () => {
    const { activities, isLoading } = useActivities();
-   if(!activities||isLoading) return <Typography>Loading...</Typography>
+   if(isLoading) return <Typography>Loading...</Typography>
+   if(!activities) return <Typography>No activities</Typography>
   return (
     <Box sx={{display:'flex',flexDirection:'column',gap:3}}>
         {activities.map(activity=>(

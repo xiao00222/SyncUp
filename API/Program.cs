@@ -18,7 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(opt =>
 {
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    opt.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -39,10 +38,21 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.None;           // needed for frontend on localhost:5173
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // requires https://
+    options.Cookie.Name = ".AspNetCore.Identity.Application";
+    
+    options.SlidingExpiration = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseRouting();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
 .AllowCredentials()
 .WithOrigins("http://localhost:5173", "https://localhost:5173"));
