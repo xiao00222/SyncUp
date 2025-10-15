@@ -11,6 +11,8 @@ using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Application.Interfaces;
+using Infastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +27,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 builder.Services.AddCors();
 builder.Services.AddMediatR
-(x => {
+(x =>
+{
     x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
     x.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 });
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivityValidatar>();
 builder.Services.AddTransient<ExceptionMiddleware>();
@@ -44,10 +48,16 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SameSite = SameSiteMode.None;           // needed for frontend on localhost:5173
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // requires https://
     options.Cookie.Name = ".AspNetCore.Identity.Application";
-    
+
     options.SlidingExpiration = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 });
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("IsActivityHost", policy =>
+    policy.Requirements.Add(new IsHostRequirement()));
+});
+builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,7 +77,7 @@ try
     var context = services.GetRequiredService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<User>>();
     await context.Database.MigrateAsync();
-    await DbInitializer.SeedData(context,userManager);
+    await DbInitializer.SeedData(context, userManager);
 }
 catch (Exception e)
 {
