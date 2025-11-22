@@ -81,7 +81,7 @@ try
 }
 catch (Exception e)
 {
-    var logger = services.GetRequiredService<Logger<Program>>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(e, "Error occured during migariton");
 }
 app.Run();

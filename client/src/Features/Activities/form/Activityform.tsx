@@ -1,11 +1,12 @@
 import { Box, Button, Paper, Typography } from "@mui/material"
 import useActivities from "../../../lib/Hooks/useActivities";
 import {  useNavigate, useParams } from "react-router";
-import {useForm,} from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { useEffect } from "react";
 import { activitySchema, type ActivitySchema } from "../../../lib/Schema/ActivitySchema";
 import {zodResolver} from '@hookform/resolvers/zod'
 import TextInput from "../../../App/Shared/Components/TextInput";
+// Removed duplicate import of useForm
 import SelectInput from "../../../App/Shared/Components/SelectInput";
 import { CategoryOptions } from "./CategoryOptions";
 import DateTimeInput from "../../../App/Shared/Components/DateTimeInput";
@@ -13,7 +14,7 @@ import LocationInput from "../../../App/Shared/Components/LocationInput";
 const Activityform = () => {
   const {reset,control,handleSubmit}=useForm<ActivitySchema>({
       mode:'onTouched',
-           resolver: zodResolver(activitySchema) 
+           resolver: zodResolver(activitySchema) as unknown as Resolver<ActivitySchema>
     }
   );
   const navigate=useNavigate();
@@ -48,7 +49,7 @@ const Activityform = () => {
       )
       }
       else{
-        CreateActivities.mutate(flattenedData,{
+        CreateActivities.mutate(flattenedData as Omit<Activity,'id'|'isCancelled'>,{
           onSuccess:(id)=>
           {
              navigate(`/activities/${id}`) 

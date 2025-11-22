@@ -25,7 +25,7 @@ const useActivities = (id?: string) => {
     },
     enabled: !!id && !!currentUser
   });
-  const updateActivities = useMutation({
+  const updateActivities = useMutation<void, unknown, Activity>({
     mutationFn: async (activity: Activity) => {
       await agent.put("/activities", activity);
     },
@@ -35,8 +35,10 @@ const useActivities = (id?: string) => {
       });
     },
   });
-  const CreateActivities = useMutation({
-    mutationFn: async (activity: Activity) => {
+  // Create mutation expects a payload without server-generated fields like `id` and `isCancelled`.
+  type CreateActivityPayload = Omit<Activity, 'id' | 'isCancelled'>;
+  const CreateActivities = useMutation<string, unknown, CreateActivityPayload>({
+    mutationFn: async (activity: CreateActivityPayload) => {
      const response= await agent.post("/activities", activity);
      return response.data;
     },
