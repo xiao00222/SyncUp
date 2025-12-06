@@ -20,7 +20,7 @@ function LoginForm() {
     const onSubmit=async(data:LoginSchema)=>{
         await loginUser.mutateAsync(data,{
             onSuccess:()=>{
-                Navigate(location.state?.from||'/activites');
+                Navigate(location.state?.from||'/activities');
             }
         });
     }

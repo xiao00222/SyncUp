@@ -45,6 +45,7 @@ function RegisterForm() {
             <Typography sx={{ml:2}} component={Link} to='/login' color="primary">Signin</Typography>
         </Typography>
     </Paper>
+    
     </>
   )
 }
