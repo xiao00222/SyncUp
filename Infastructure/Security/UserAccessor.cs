@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Application.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Infastructure.Security;
@@ -20,5 +21,12 @@ public class UserAccessor(IHttpContextAccessor httpContextAccessor,ApplicationDb
     {
         return httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier) ??
         throw new Exception("No User Found");
+    }
+
+    public async Task<User> GetUserWithPhotosAsync()
+    {   var userid=GetUserId();
+        return await dbContext.Users.Include(x=>x.Photos)
+        .FirstOrDefaultAsync(x=>x.Id==userid)
+        ?? throw new UnauthorizedAccessException("No User is logged in");
     }
 }
