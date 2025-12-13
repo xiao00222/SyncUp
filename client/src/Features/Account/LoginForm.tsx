@@ -9,7 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 
 function LoginForm() {
     const {loginUser}= useAccount();
-    const Navigate=useNavigate();
+    const navigate=useNavigate();
     const location=useLocation();
     const {control,handleSubmit,formState:{isValid,isSubmitting}}=useForm<LoginSchema>(
         {
@@ -20,7 +20,7 @@ function LoginForm() {
     const onSubmit=async(data:LoginSchema)=>{
         await loginUser.mutateAsync(data,{
             onSuccess:()=>{
-                Navigate(location.state?.from||'/activities');
+                navigate(location.state?.from||'/activities');
             }
         });
     }

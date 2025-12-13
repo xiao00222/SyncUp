@@ -8,6 +8,7 @@ import { useAccount } from '../../lib/Hooks/useAccount';
 import { Link } from 'react-router';
 import { Add, Logout, Person } from '@mui/icons-material';
 
+
 export default function UserMenu() {
     const {currentUser,logoutUser}=useAccount();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,7 +29,7 @@ export default function UserMenu() {
         sx={{fontSize:'1.1rem'}}
       >
         <Box display='flex' alignItems='center' gap={2}>
-            <Avatar/>
+            <Avatar src={currentUser?.imageUrl} alt='Your Image'/>
             {currentUser?.displayName}
         </Box>
       </Button>
@@ -50,7 +51,7 @@ export default function UserMenu() {
         <ListItemText>Create Activity</ListItemText>
          </MenuItem>
         <Divider/>
-        <MenuItem component={Link} to='/profile' onClick={handleClose}>
+        <MenuItem component={Link} to={`/profiles/${currentUser?.id}`} onClick={handleClose}>
         <ListItemIcon>
             <Person/>
         </ListItemIcon>

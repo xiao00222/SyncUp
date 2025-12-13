@@ -30,7 +30,7 @@ const ActivityCard = ({ activity }: Props) => {
       <Card elevation={3} sx={{ borderRadius: 3 }}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <CardHeader
-            avatar={<Avatar sx={{ height: 80, width: 80 }} />}
+            avatar={<Avatar src={activity.hostImageUrl} alt="Image of host" sx={{ height: 80, width: 80 }} />}
             title={activity.title}
             titleTypographyProps={{
               fontWeight: "bold",
@@ -52,7 +52,7 @@ const ActivityCard = ({ activity }: Props) => {
             {activity.isCancelled && (
               <Chip label="Cancelled" color="error" sx={{ borderRadius: 2 }} />
             )}
-          </Box>
+          </Box> 
         </Box>
         <Divider sx={{ mb: 3 }} />
         <CardContent sx={{ p: 0 }}>

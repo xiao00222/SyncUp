@@ -11,6 +11,7 @@ import ServerError from "../../Features/errors/ServerError";
 import LoginForm from "../../Features/Account/LoginForm";
 import RequireAuth from "./RequireAuth";
 import RegisterForm from "../../Features/Account/RegisterForm";
+import ProfilePage from "../../Features/profile/ProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       { path: "activities/:id", element: <ActivityDetailsPage /> },
       { path: "createActivity", element: <Activityform key="create" /> },
       { path: "manage/:id", element: <Activityform /> },
+      {path:"profiles/:id",element:<ProfilePage/>}
       ]},
       { path: "", element: <HomepPage /> },
       { path: "counter", element: <Counter /> },

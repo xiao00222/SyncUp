@@ -25,12 +25,24 @@ function Profilecards({ profile }: Props) {
         <CardMedia
           component="img"
           src={profile?.imageUrl || "/images/user.png"}
-          sx={{ width: 200, zIndex: 50 }}
+          sx={{ width: '100%', zIndex: 50 }}
           alt={profile.displayName + "image"}
         />
         <CardContent>
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box display="flex" flexDirection='column' gap={1}>
             <Typography variant="h5">{profile.displayName}</Typography>
+            {profile.bio && (
+              <Typography
+                variant="body2"
+                sx={{
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {profile.bio}
+              </Typography>
+            )}
             {following && (
               <Chip
                 size="small"
@@ -41,14 +53,20 @@ function Profilecards({ profile }: Props) {
             )}
           </Box>
         </CardContent>
-        <Divider sx={{mb:2}}/>
-        <Box sx={{display:"flex", alignItems:"center",justifyContent:"start"}}>
-            <Person/>
-            <Typography sx={{ml:1}}>20 followers</Typography>
+        <Divider sx={{ mb: 2 }} />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "start",
+          }}
+        >
+          <Person />
+          <Typography sx={{ ml: 1 }}>20 followers</Typography>
         </Box>
       </Card>
     </Link>
-  );    
+  );
 }
 
 export default Profilecards;
