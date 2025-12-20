@@ -19,4 +19,5 @@ public class Activity
     public double Longitude { get; set; }
     //navigation properties
     public ICollection<ActivityAttendees> Attendees { get; set; } = [];
+    public ICollection<Comment> Comments { get; set; }=[];
 }

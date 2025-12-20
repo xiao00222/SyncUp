@@ -16,6 +16,15 @@ type Activity = {
   hostDisplayName:string;
   hostImageUrl?:string;
 };
+type ChatComment={
+  id:string
+  createdAt:string
+  body:string
+  userId:string
+  displayName:string
+  imageUrl?:string
+
+}
 type Profile={
   id:string;
   displayName:string;

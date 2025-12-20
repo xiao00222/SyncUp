@@ -15,6 +15,7 @@ using Application.Interfaces;
 using Infastructure.Security;
 using Infastructure;
 using Infastructure.Photos;
+using API.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddCors();
+builder.Services.AddSignalR();
 builder.Services.AddMediatR
 (x =>
 {
@@ -73,7 +75,8 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapGroup("api").MapIdentityApi<User>();
+app.MapGroup("api").MapIdentityApi<User>();//api login
+app.MapHub<CommentHub>("/comments");
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
