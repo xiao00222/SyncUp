@@ -13,7 +13,7 @@ function ProfilePage() {
   <>
     <Grid2 container>
       <Grid2 size={12}>
-        <ProfileHeader profile={profile} />
+        <ProfileHeader  />
         <ProfileContent />
       </Grid2>
     </Grid2>

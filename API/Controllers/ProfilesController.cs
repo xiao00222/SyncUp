@@ -18,27 +18,37 @@ public class ProfilesController : BaseApiController
     [HttpGet("{userId}/photos")]
     public async Task<ActionResult<List<Photo>>> GetPhotosforUser(string UserID)
     {
-       return HandleResult(await Mediator.Send(new GetProfilePhotos.Query { UserId = UserID }));
+        return HandleResult(await Mediator.Send(new GetProfilePhotos.Query { UserId = UserID }));
     }
     [HttpDelete("{photoId}/photos")]
     public async Task<ActionResult> DeletePhotos(string photoId)
     {
-        return HandleResult(await Mediator.Send(new DeletePhotos.Command{PhotoId=photoId}));
+        return HandleResult(await Mediator.Send(new DeletePhotos.Command { PhotoId = photoId }));
     }
     [HttpPut("{photoId}/SetMain")]
     public async Task<ActionResult> SetMainPhoto(string PhotoId)
     {
-        return HandleResult(await Mediator.Send(new SetMainPhoto.Command{PhotoId=PhotoId}));
+        return HandleResult(await Mediator.Send(new SetMainPhoto.Command { PhotoId = PhotoId }));
     }
     [HttpGet("{userId}")]
     public async Task<ActionResult<UserProfile>> GetProfile(string userId)
     {
-        return HandleResult(await Mediator.Send(new GetProfile.Query{UserId=userId}));
+        return HandleResult(await Mediator.Send(new GetProfile.Query { UserId = userId }));
     }
     [HttpPut]
     public async Task<ActionResult> Editprofile(EditProfile.Command command)
     {
-     return HandleResult(await Mediator.Send(command));   
+        return HandleResult(await Mediator.Send(command));
+    }
+    [HttpPost("{userId}/follow")]
+    public async Task<ActionResult> FollowToggle(string userId)
+    {
+        return HandleResult(await Mediator.Send(new FollowToggle.Command { TargetUserId = userId }));
+    }
+    [HttpGet("{userId}/follow-list")]
+    public async Task<ActionResult> GetFolllowings(string userId,string Predicate)
+    {
+        return HandleResult(await Mediator.Send(new GetFollowings.Query{UserId=userId,Predicate=Predicate}));
     }
 
 }

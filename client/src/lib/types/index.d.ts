@@ -31,6 +31,11 @@ type Profile={
   bio?:string;
   imageUrl?:string;
     photos: Photo[];
+  followingCount?:number
+  followerCount?:number
+  following?:boolean
+
+    
 }
 type Photo={
   id:string;

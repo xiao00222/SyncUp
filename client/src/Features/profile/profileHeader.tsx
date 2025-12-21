@@ -9,11 +9,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-type Props = {
-  profile: Profile;
-};
-function profileHeader({ profile }: Props) {
-  const isFollowing = true;
+import { useParams } from "react-router";
+import { useProfile } from "../../lib/Hooks/useProfile";
+
+
+ function ProfileHeader() {
+  const {id}=useParams();
+  const {profile,isCurrentUser,updateFollowing  }=useProfile(id);
+  if(!profile) return null;
   return (
     <>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
@@ -23,7 +26,7 @@ function profileHeader({ profile }: Props) {
               <Avatar src={profile.imageUrl} alt="Profile pic" sx={{ width: 150, height: 150 }} />
               <Box display="flex" flexDirection="column" gap={2}>
                 <Typography variant="h4">{profile.displayName}</Typography>
-                {isFollowing && (
+                {profile.following && (
                   <Chip
                     variant="outlined"
                     color="secondary"
@@ -39,21 +42,27 @@ function profileHeader({ profile }: Props) {
               <Box display="flex" justifyContent="space-around" width="100%">
                 <Box textAlign="center">
                   <Typography variant="h6">Followers</Typography>
-                  <Typography variant="h5">5</Typography>
+                  <Typography variant="h5">{profile.followerCount}</Typography>
                 </Box>
                 <Box textAlign="center">
                   <Typography variant="h6">Following</Typography>
-                  <Typography variant="h5">40</Typography>
+                  <Typography variant="h5">{profile.followingCount}</Typography>
                 </Box>
               </Box>
+              {!isCurrentUser&&<>
               <Divider sx={{ width: "100%" }}></Divider>
               <Button
                 variant="outlined"
                 fullWidth
-                color={isFollowing ? "error" : "success"}
+                color={profile.following ? "error" : "success"}
+                onClick={()=>updateFollowing.mutate()}
+                disabled={updateFollowing.isPending}
               >
-                {isFollowing ? "Unfollow" : "Follow"}
+                {profile.following ? "Unfollow" : "Follow"}
               </Button>
+              </>}
+              
+              
             </Stack>
           </Grid2>
         </Grid2>
@@ -61,5 +70,5 @@ function profileHeader({ profile }: Props) {
     </>
   );
 }
+export default ProfileHeader;
 
-export default profileHeader;
