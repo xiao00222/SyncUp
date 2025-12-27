@@ -11,71 +11,70 @@ type Activity = {
   longitude: number;
   attendees: Profile[];
   isGoing: boolean;
-  isHost: boolean;  
+  isHost: boolean;
   hostId: string;
-  hostDisplayName:string;
-  hostImageUrl?:string;
+  hostDisplayName: string;
+  hostImageUrl?: string;
 };
-type ChatComment={
-  id:string
-  createdAt:string
-  body:string
-  userId:string
-  displayName:string
-  imageUrl?:string
-
-}
-type Profile={
-  id:string;
-  displayName:string;
-  bio?:string;
-  imageUrl?:string;
-    photos: Photo[];
-  followingCount?:number
-  followerCount?:number
-  following?:boolean
-
-    
-}
-type Photo={
-  id:string;
-  url:string
-
-}
-type User={
-id:string
-email:string
-displayName:string
-imageUrl?:string
+type ChatComment = {
+  id: string;
+  createdAt: string;
+  body: string;
+  userId: string;
+  displayName: string;
+  imageUrl?: string;
 };
- type LocationIQSuggestion = {
-  place_id: string
-  osm_id: string
-  osm_type: string
-  licence: string
-  lat: string
-  lon: string
-  boundingbox: string[]
-  class: string
-  type: string
-  display_name: string
-  display_place: string
-  display_address: string
-  address: LocationIQAddress
-}
+type PagedList<T, TCursor> = {
+  items: T[];
+  nextCursor: TCursor;
+};
+type Profile = {
+  id: string;
+  displayName: string;
+  bio?: string;
+  imageUrl?: string;
+  photos: Photo[];
+  followingCount?: number;
+  followerCount?: number;
+  following?: boolean;
+};
+type Photo = {
+  id: string;
+  url: string;
+};
+type User = {
+  id: string;
+  email: string;
+  displayName: string;
+  imageUrl?: string;
+};
+type LocationIQSuggestion = {
+  place_id: string;
+  osm_id: string;
+  osm_type: string;
+  licence: string;
+  lat: string;
+  lon: string;
+  boundingbox: string[];
+  class: string;
+  type: string;
+  display_name: string;
+  display_place: string;
+  display_address: string;
+  address: LocationIQAddress;
+};
 
- type LocationIQAddress = {
-  name: string
-  road?: string
-  neighbourhood?: string
-  suburb?: string
-  city?: string
-  town?:string
- village?:string 
-  county: string
-  state: string
-  postcode?: string
-  country: string
-  country_code: string
-}
-
+type LocationIQAddress = {
+  name: string;
+  road?: string;
+  neighbourhood?: string;
+  suburb?: string;
+  city?: string;
+  town?: string;
+  village?: string;
+  county: string;
+  state: string;
+  postcode?: string;
+  country: string;
+  country_code: string;
+};

@@ -1,7 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain;
+
+[Index(nameof(Date))]
 
 public class Activity
 {
@@ -19,5 +22,5 @@ public class Activity
     public double Longitude { get; set; }
     //navigation properties
     public ICollection<ActivityAttendees> Attendees { get; set; } = [];
-    public ICollection<Comment> Comments { get; set; }=[];
+    public ICollection<Comment> Comments { get; set; } = [];
 }

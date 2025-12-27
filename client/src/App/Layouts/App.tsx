@@ -15,7 +15,7 @@ function App() {
         ) : (
           <>
             <NavBar />
-            <Container sx={{ mt: 8 }}>
+            <Container sx={{ pt: 14 }}>
               <Outlet />
             </Container>
           </>
