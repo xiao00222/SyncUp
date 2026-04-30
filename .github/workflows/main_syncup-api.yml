@@ -8,6 +8,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: 'syncup-api'
   DOTNET_VERSION: '9.x'
+  NODE_VERSION: '20.x' # Added Node.js version
 
 jobs:
   build-and-deploy:
@@ -16,6 +17,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 1. SETUP NODE & BUILD FRONTEND
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install npm dependencies
+        working-directory: ./client
+        run: npm install
+
+      - name: Build React frontend
+        working-directory: ./client
+        run: npm run build
+      # (Because your vite.config.ts pushes the build to ../API/wwwroot, 
+      # the files will automatically be ready for the .NET publish step below!)
+
+      # 2. SETUP .NET & BUILD BACKEND
       - name: Setup .NET ${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v4
         with:
@@ -30,6 +48,7 @@ jobs:
       - name: Publish API Project
         run: dotnet publish API/API.csproj -c Release -o ./published --no-build
 
+      # 3. DEPLOY TO AZURE
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
