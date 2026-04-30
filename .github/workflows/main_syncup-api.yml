@@ -7,11 +7,11 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: 'syncup-api'
-  DOTNET_VERSION: '9.0.x'
+  DOTNET_VERSION: '9.x'
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest        # Important: Use Windows runner
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -24,15 +24,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore SyncUp.sln
 
+      - name: Build Solution
+        run: dotnet build SyncUp.sln --configuration Release --no-restore
+
       - name: Publish API Project
-        run: |
-          dotnet publish API/API.csproj `
-            -c Release `
-            -o ./published `
-            --framework net9.0 `
-            --runtime win-x64 `
-            --no-self-contained `
-            -p:UseAppHost=true
+        run: dotnet publish API/API.csproj -c Release -o ./published --no-build
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
