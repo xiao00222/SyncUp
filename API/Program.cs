@@ -74,9 +74,12 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
 .WithOrigins("http://localhost:5173", "https://localhost:5173"));
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>();//api login
 app.MapHub<CommentHub>("/comments");
+app.MapFallbackToController("Index","Fallback");
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try

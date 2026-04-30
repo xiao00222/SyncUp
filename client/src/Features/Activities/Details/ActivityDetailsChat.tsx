@@ -4,7 +4,6 @@ import { useComments } from "../../../lib/Hooks/useComments";
 import { timeAgo } from "../../../lib/Util.util";
 import { useForm, type FieldValues } from "react-hook-form";
 import  { observer } from "mobx-react-lite";
-
 const ActivityDetailsChat= observer(function ActivityDetailsChat() {
     const {id}=useParams();
    const{commentStore}=useComments(id);
