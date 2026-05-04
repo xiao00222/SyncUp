@@ -9,46 +9,56 @@ type Props={
 export default function ActivityDetailsInfo({activity}:Props) {
     const [mapOpen,SetMapOpen]=useState(false)
     return (
-        <Paper sx={{ mb: 2 }}>
-
-            <Grid2 container alignItems="center" pl={2} py={1}>
-                <Grid2 size={1}>
-                    <Info color="info" fontSize="large" />
-                </Grid2>
-                <Grid2 size={11}>
-                    <Typography>{activity.description}</Typography>
-                </Grid2>
+    <Paper sx={{ mb: 2 }}>
+        <Grid2 container alignItems="center" pl={2} py={1}>
+            <Grid2 size={{ xs: 2, sm: 1 }}>
+                <Info color="info" fontSize="large" />
             </Grid2>
-            <Divider />
-            <Grid2 container alignItems="center" pl={2} py={1}>
-                <Grid2 size={1}>
-                    <CalendarToday color="info" fontSize="large" />
-                </Grid2>
-                <Grid2 size={11}>
-                    <Typography>{formatDate(activity.date)}</Typography>
-                </Grid2>
+            <Grid2 size={{ xs: 10, sm: 11 }}>
+                <Typography>{activity.description}</Typography>
             </Grid2>
-            <Divider />
+        </Grid2>
+        <Divider />
 
-            <Grid2 container alignItems="center" pl={2} py={1}>
-                <Grid2 size={1}>
-                    <Place color="info" fontSize="large" />
-                </Grid2>
-                <Grid2 size={11} display='flex' justifyContent='space-between' alignItems='center'>
-                    <Typography >
-                        {activity.venue} , {activity.city}
-                        <Button sx={{whiteSpace:'nowrap', mx:2}} onClick={()=>SetMapOpen(!mapOpen)} >
-                            {mapOpen?'Hide Map':'Show Map'}
-                        </Button>
-                    </Typography>
-                </Grid2>
+        <Grid2 container alignItems="center" pl={2} py={1}>
+            <Grid2 size={{ xs: 2, sm: 1 }}>
+                <CalendarToday color="info" fontSize="large" />
             </Grid2>
-            {mapOpen&&(
-                <Box sx={{height:400,zIndex:1000,display:'block'}}>
-                    <MapComponent position={[activity.lattitude,activity.longitude]} venue={activity.venue}/>
+            <Grid2 size={{ xs: 10, sm: 11 }}>
+                <Typography>{formatDate(activity.date)}</Typography>
+            </Grid2>
+        </Grid2>
+        <Divider />
 
-                </Box>
-            )}
-        </Paper>
-    )
+        <Grid2 container alignItems="center" pl={2} py={1}>
+            <Grid2 size={{ xs: 2, sm: 1 }}>
+                <Place color="info" fontSize="large" />
+            </Grid2>
+            <Grid2
+                size={{ xs: 10, sm: 11 }}
+                display="flex"
+                flexDirection={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems={{ xs: 'flex-start', sm: 'center' }}
+                gap={0.5}
+            >
+                <Typography>
+                    {activity.venue}, {activity.city}
+                </Typography>
+                <Button onClick={() => SetMapOpen(!mapOpen)}>
+                    {mapOpen ? 'Hide Map' : 'Show Map'}
+                </Button>
+            </Grid2>
+        </Grid2>
+
+        {mapOpen && (
+            <Box sx={{ height: 400, zIndex: 1000, display: 'block' }}>
+                <MapComponent
+                    position={[activity.lattitude, activity.longitude]}
+                    venue={activity.venue}
+                />
+            </Box>
+        )}
+    </Paper>
+);
 }

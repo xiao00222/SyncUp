@@ -33,76 +33,76 @@ return ()=>{
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
   });
-  return (
-    <Grid2 container spacing={3}>
-      <Grid2 size={4}>
-        <Typography variant="overline" color="secondary">
-          Step 1 - Add Photo
-        </Typography>
-        <Box
-          {...getRootProps()}
-          sx={{
-            border: "dashed 3px #eee",
-            borderColor: isDragActive ? "green" : "#eee",
-            borderRadius: "5px",
-            paddingTop: "30px",
-            textAlign: "center",
-            height: "280px",
-          }}
-        >
-          <input {...getInputProps()} />
-          <CloudUpload sx={{ fontSize: 80 }} />
-          {isDragActive ? (
-            <Typography>Drop Image here</Typography>
-          ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          )}
-        </Box>
-      </Grid2>
-      <Grid2 size={4}>
-        <Typography variant="overline" color="secondary">
-          Step 2 - Resize Photo
-        </Typography>
-        {files[0]?.preview && (
-          <Cropper
-            src={files[0].preview}
-            style={{ height: 300, width: "90%" }}
-            initialAspectRatio={1}
-            aspectRatio={1}
-            preview=".img-preview"
-            guides={false}
-            viewMode={1}
-            background={false}
-            ref={cropperRef}
-          />
+ return (
+  <Grid2 container spacing={3}>
+    <Grid2 size={{ xs: 12, sm: 4 }}>
+      <Typography variant="overline" color="secondary">
+        Step 1 - Add Photo
+      </Typography>
+      <Box
+        {...getRootProps()}
+        sx={{
+          border: "dashed 3px #eee",
+          borderColor: isDragActive ? "green" : "#eee",
+          borderRadius: "5px",
+          paddingTop: "30px",
+          textAlign: "center",
+          height: "280px",
+        }}
+      >
+        <input {...getInputProps()} />
+        <CloudUpload sx={{ fontSize: 80 }} />
+        {isDragActive ? (
+          <Typography>Drop Image here</Typography>
+        ) : (
+          <p>Drag 'n' drop some files here, or click to select files</p>
         )}
-      </Grid2>
-      <Grid2 size={4}>
-         <Typography variant="overline" color="secondary">
-              Step 3 - Preview and Upload
-            </Typography>
-        {files[0]?.preview && (
-          <>
-           
-            <div
-              className="img-preview"
-              style={{ width: 300, height: 300, overflow: "hidden" }}
-            ></div>
-            <Button
-              sx={{ mt: 2,width:300,my:1 }}
-              onClick={OnCrop}
-              variant="contained"
-              color="secondary"
-              disabled={loading}
-              
-            >
-              Upload
-            </Button>
-          </>
-        )}
-      </Grid2>
+      </Box>
     </Grid2>
-  );
+
+    <Grid2 size={{ xs: 12, sm: 4 }}>
+      <Typography variant="overline" color="secondary">
+        Step 2 - Resize Photo
+      </Typography>
+      {files[0]?.preview && (
+        <Cropper
+          src={files[0].preview}
+          style={{ height: 300, width: "100%" }}
+          initialAspectRatio={1}
+          aspectRatio={1}
+          preview=".img-preview"
+          guides={false}
+          viewMode={1}
+          background={false}
+          ref={cropperRef}
+        />
+      )}
+    </Grid2>
+
+    <Grid2 size={{ xs: 12, sm: 4 }}>
+      <Typography variant="overline" color="secondary">
+        Step 3 - Preview and Upload
+      </Typography>
+      {files[0]?.preview && (
+        <>
+          <div
+            className="img-preview"
+            style={{ width: "100%", maxWidth: 300, height: 300, overflow: "hidden" }}
+          ></div>
+          <Button
+            sx={{ mt: 2, width: "100%", maxWidth: 300, my: 1 }}
+            onClick={OnCrop}
+            variant="contained"
+            color="secondary"
+            disabled={loading}
+          >
+            Upload
+          </Button>
+        </>
+      )}
+    </Grid2>
+  </Grid2>
+);
 }
 
 export default PhotoUploadWidget;
