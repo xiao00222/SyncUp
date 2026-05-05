@@ -37,6 +37,7 @@ const Activityform = () => {
   {
     const {location,...rest}=data;
     const flattenedData={...rest,...location};
+    console.log("Sending:", flattenedData);
     try {
       if(activity)
       {

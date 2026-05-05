@@ -106,9 +106,9 @@ export const NavBar = () => {
             <MenuItemLink to="/activities">Activities</MenuItemLink>
           </ListItem>
           {currentUser ? (
-            <ListItem disablePadding>
-              <UserMenu />
-            </ListItem>
+           <ListItem disablePadding onClick={(e) => e.stopPropagation()}>
+  <UserMenu />
+</ListItem>
           ) : (
             <>
               <ListItem disablePadding>

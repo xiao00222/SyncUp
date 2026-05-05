@@ -33,6 +33,7 @@ function RegisterForm() {
   sx={{
     display: 'flex',
     flexDirection: 'column',
+    gap:2,
     p: { xs: 2, sm: 3 },
     maxWidth: 'md',
     mx: 'auto',

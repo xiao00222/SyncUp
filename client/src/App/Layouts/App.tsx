@@ -6,7 +6,7 @@ import HomepPage from "../../Features/Home/HomepPage";
 function App() {
   const location = useLocation();
   return (
-    <Box sx={{ bgcolor: "grey.300" }}>
+    <Box sx={{ bgcolor: "grey.300", minHeight:"100vh" }}>
       <ScrollRestoration/>
       <CssBaseline />
       {
